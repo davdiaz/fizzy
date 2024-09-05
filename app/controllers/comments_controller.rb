@@ -2,10 +2,8 @@ class CommentsController < ApplicationController
   before_action :set_bubble
 
   def create
-    @comment = @bubble.comments.create(comment_params)
-    @comment.save
-
-    redirect_to bubble_path(@bubble, anchor: "comment_#{@comment.id}")
+    @bubble.comments.create!(comment_params)
+    redirect_to @bubble
   end
 
   private
