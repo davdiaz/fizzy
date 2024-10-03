@@ -19,7 +19,11 @@
 <% end %>
 
 <section class="windshield flex-inline flex-wrap gap justify-center align-end" style="view-transition-name: windshield_<%= @bucket.id %>">
-  <%= render partial: "bubbles/bubble", collection: @bubbles.ordered_by_activity.limit(10) %>
+  <% if @bubbles.ordered_by_activity.any? %>
+    <%= render partial: "bubbles/bubble", collection: @bubbles.ordered_by_activity.limit(10) %>
+  <% else %>
+    <p><strong>Nothing here.</strong></p>
+  <% end %>
 </section>
 
 <section class="bubbles-list unpad-inline center margin-block-start">
