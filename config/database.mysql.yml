@@ -1,6 +1,7 @@
 default: &default
   # CAMBIO 1: Cambiar el adaptador de 'trilogy' a 'mysql2'
   adapter: trilogy
+  ssl_mode: verify_identity
   
   # CAMBIO 2: Usar las variables de Render (DB_) en lugar de las variables de Fizzy (MYSQL_)
   host: <%= ENV.fetch("DB_HOST", "127.0.0.1") %>
