@@ -662,7 +662,7 @@ ActiveRecord::Schema[8.2].define(version: 2025_12_01_100607) do
     t.string "searchable_type", null: false
     t.string "title"
     t.index ["account_id"], name: "index_search_records_9_on_account_id"
-    t.index ["account_key", "content", "title"], name: "index_search_records_9_on_account_key_and_content_and_title"# , type: :fulltext
+    t.index ["account_key", "title"], name: "index_search_records_9_on_account_key_and_content_and_title"# , type: :fulltext
     t.index ["searchable_type", "searchable_id"], name: "index_search_records_9_on_searchable_type_and_searchable_id", unique: true
   end
 
