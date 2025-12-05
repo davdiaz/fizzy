@@ -230,7 +230,7 @@ class InitialSchema < ActiveRecord::Migration[8.2]
       t.uuid "creator_id", null: false
       t.uuid "eventable_id", null: false
       t.string "eventable_type", limit: 255, null: false
-      t.json "particulars", default: "{}"
+      t.json "particulars"
       t.datetime "updated_at", null: false
       t.index ["action"], name: "index_events_on_summary_id_and_action"
       t.index ["board_id", "action", "created_at"], name: "index_events_on_board_id_and_action_and_created_at"
@@ -243,7 +243,7 @@ class InitialSchema < ActiveRecord::Migration[8.2]
       t.uuid "account_id"
       t.datetime "created_at", null: false
       t.uuid "creator_id", null: false
-      t.json "fields", default: "{}", null: false
+      t.json "fields", null: false
       t.string "params_digest", limit: 255, null: false
       t.datetime "updated_at", null: false
       t.index ["creator_id", "params_digest"], name: "index_filters_on_creator_id_and_params_digest", unique: true
