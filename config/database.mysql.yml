@@ -1,12 +1,16 @@
 default: &default
-  adapter: trilogy
-  host: <%= ENV.fetch("MYSQL_HOST", "127.0.0.1") %>
-  port: <%= ENV.fetch("MYSQL_PORT", "3306") %>
-  username: <%= ENV.fetch("MYSQL_USER", "root") %>
-  password: <%= ENV["MYSQL_PASSWORD"] %>
-  pool: 50
+  # CAMBIO 1: Cambiar el adaptador de 'trilogy' a 'mysql2'
+  adapter: mysql2
+  
+  # CAMBIO 2: Usar las variables de Render (DB_) en lugar de las variables de Fizzy (MYSQL_)
+  host: <%= ENV.fetch("DB_HOST", "127.0.0.1") %>
+  port: <%= ENV.fetch("DB_PORT", "4000") %> # 4000 es el puerto de TiDB
+  username: <%= ENV.fetch("DB_USER", "root") %>
+  password: <%= ENV.fetch("DB_PASSWORD", ENV["MYSQL_PASSWORD"]) %> # Usamos DB_PASSWORD
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS", 5) %> # Usamos RAILS_MAX_THREADS
   timeout: 5000
 
+# development y test usan 'default' y heredarán las variables DB_
 development:
   primary:
     <<: *default
@@ -25,18 +29,13 @@ test:
     database: fizzy_test_cable
     migrations_paths: db/cable_migrate
 
-# Sección de Producción para Render/TiDB (dentro de database.mysql.yml)
+# Sección de Producción: Ahora solo hereda de 'default' y anula lo necesario (nada en este caso)
 production:
-  adapter: mysql2
-  encoding: utf8mb4
-  charset: utf8mb4
-  collation: utf8mb4_bin
-  host: <%= ENV.fetch("DB_HOST") %>
-  port: <%= ENV.fetch("DB_PORT", 4000) %>
-  database: <%= ENV.fetch("DB_NAME") %>
-  username: <%= ENV.fetch("DB_USER") %>
-  password: <%= ENV.fetch("DB_PASSWORD") %>
-  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  primary:
+    <<: *default
+    database: <%= ENV.fetch("DB_NAME", "fizzy_production") %> # Usa DB_NAME y valor por defecto
+  
+  # cable, queue, cache también usan *default, lo cual hereda la configuración DB_HOST
   cable:
     <<: *default
     database: fizzy_production_cable
