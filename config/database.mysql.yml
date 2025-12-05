@@ -25,10 +25,18 @@ test:
     database: fizzy_test_cable
     migrations_paths: db/cable_migrate
 
+# Sección de Producción para Render/TiDB (dentro de database.mysql.yml)
 production:
-  primary:
-    <<: *default
-    database: fizzy_production
+  adapter: mysql2
+  encoding: utf8mb4
+  charset: utf8mb4
+  collation: utf8mb4_bin
+  host: <%= ENV.fetch("DB_HOST") %>
+  port: <%= ENV.fetch("DB_PORT", 4000) %>
+  database: <%= ENV.fetch("DB_NAME") %>
+  username: <%= ENV.fetch("DB_USER") %>
+  password: <%= ENV.fetch("DB_PASSWORD") %>
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
   cable:
     <<: *default
     database: fizzy_production_cable
