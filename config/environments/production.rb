@@ -86,7 +86,7 @@ Rails.application.configure do
   #config.active_job.queue_adapter = :solid_queue
   #config.solid_queue.connects_to = { database: { writing: :queue, reading: :queue } }
   # En vez de Solid Queue, usamos algo sencillo para tu instancia personal:
-  config.active_job.queue_adapter = ENV.fetch("RAILS_QUEUE_ADAPTER", "async").to_sym
+  config.active_job.queue_adapter = :inline
   # config.solid_queue.connects_to = { database: { writing: :queue, reading: :queue } }
 
   # config.active_job.queue_name_prefix = "fizzy_production"
